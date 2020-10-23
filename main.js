@@ -18,12 +18,13 @@ var numMine = 16;
 var maxChoices = maxNumber - numMine;
 
 
-// ***creo un ciclo invocando la funzione creata per generare 16 numeri casuali
+// ***creo un ciclo invocando la funzione creata per generare 16 numeri casuali inserendo i miei min e max come parametri
+
 while (numbersGenerate.length < numMine) {
     var mineRandom = getRndInteger(minNumber, maxNumber);
     // ***verifico se la bomba è gia presente nell'array
     // ***la inserisco solo se non è già presente
-    if (numbersGenerate.includes(mineRandom) == false) {
+    if (numbersGenerate.includes(mineRandom) == false) {    /*oppure !numb...*/
         numbersGenerate.push(mineRandom);
     }
 }
@@ -34,21 +35,27 @@ console.log(numbersGenerate);
 var isFoundMine = false;
 do {
     var userChoice = parseInt(prompt('Inserisci un numero'));
-    // ***verifico che il numero inserito non sia una bomba invocando la funzione creata
-    // ***myNumber.includes(userChoice) == false
+    // ***verifico che il numero inserito dall'utente sia un numero intero e che sia compreso tra 1 e 100 invocando la funzione creata
+    if (checkOk(userChoice, maxNumber)) {
+        // ***verifico che il numero inserito non sia una bomba invocando la funzione creata
+        // ***numbersGenerate.includes(userChoice) == false
 
-    // ***verifico che la mia scelta non sia già presente nell'array delle scelte
-    // ***myNumber.includes(useChoice) == false
+        // ***verifico che la mia scelta non sia già presente nell'array delle scelte
+        // ***myNumber.includes(useChoice) == false
 
-    var isGameOver = isMine(userChoice, numbersGenerate);
-    if (isGameOver == true) {
-        isFoundMine = true;
-        alert('hai perso, hai totalizzato ' + myNumber.length + 'punti');
-    } else if (myNumber.includes(userChoice) == false) {
-        myNumber.push(userChoice);
+        var isGameOver = isMine(userChoice, numbersGenerate);
+        if (isGameOver == true) {
+            isFoundMine = true;
+            alert('hai perso, hai totalizzato ' + myNumber.length + 'punti');
+        } else if (myNumber.includes(userChoice) == false) {
+            myNumber.push(userChoice);
+        } else  {
+            alert('numero duplicato');
+        }
     } else {
-        alert('numero duplicato');
+        alert('non hai inserito un numero o il numero inserito non è comrpeso tra 1 e 100')
     }
+
 
 } while (isFoundMine == false && myNumber.length < maxChoices);
 
@@ -73,4 +80,14 @@ function isMine(myChoice, arrayMine) {
         controll = true;
     }
     return controll;
+}
+
+// ***creo una funzione per il controllo del numero inserito dall'utente
+function checkOk(choice) {
+    // ***verifico che il numero inserito dall'utente sia un numero intero e che sia compreso tra 1 e 100
+    if ((!isNaN(choice)) && (choice >= minNumber) && (choice <= maxNumber)) {
+        return true;
+    } else {
+        return false;
+    }
 }
